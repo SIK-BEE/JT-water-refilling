@@ -1,0 +1,352 @@
+/* Authentication screen — compact, centered card inspired by the supplied sample */
+.auth-wrapper {
+    background: linear-gradient(to bottom, #b2ebf2, #81d4fa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    padding: 24px 16px;
+}
+
+.auth-card {
+    width: min(100%, 302px);
+    padding: 30px 28px 25px;
+    border-radius: 19px;
+    background: #fff;
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 9px 24px rgba(24, 104, 125, .20);
+    text-align: center;
+    animation: auth-card-enter .45s ease both;
+}
+
+.brand-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 29px;
+}
+
+.brand-header .auth-logo {
+    width: 86px;
+    height: 86px;
+    object-fit: contain;
+    margin-bottom: 13px;
+    transform-origin: 50% 85%;
+    animation: logo-bounce 2.1s ease-in-out infinite;
+    will-change: transform;
+}
+
+.brand-header h2 {
+    color: #00a6b7;
+    font-size: 1.28rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0;
+}
+
+.brand-header p { display: none; }
+
+.auth-form { text-align: center; }
+.auth-form .form-group { margin-bottom: 18px; }
+.auth-form label.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.auth-form input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    margin: 0;
+    padding: 9px 14px;
+    border: 2px solid #a4edf5;
+    border-radius: 999px;
+    background: #fff;
+    color: #344f54;
+    text-align: center;
+    font-size: .9rem;
+    box-shadow: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+.auth-form input::placeholder { color: #858585; opacity: 1; }
+.auth-form input:focus {
+    border-color: #00afc0;
+    box-shadow: 0 0 0 3px rgba(0, 174, 192, .11);
+    outline: none;
+}
+
+.auth-link-row {
+    display: flex;
+    justify-content: center;
+    margin: -3px 0 15px;
+}
+.text-link {
+    display: inline;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #00a9bd;
+    font-size: .83rem;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: none;
+}
+.text-link:hover { color: #007f90; text-decoration: underline; background: transparent; }
+.strong-link { font-weight: 700; }
+
+.auth-form .auth-submit {
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    margin: 0;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #00aec0;
+    color: #fff;
+    box-shadow: none;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.auth-form .auth-submit:hover {
+    background: #0099aa;
+    box-shadow: 0 4px 10px rgba(0, 174, 192, .18);
+}
+.auth-footer {
+    margin: 12px -8px 0;
+    color: #888;
+    font-size: .78rem;
+    line-height: 1.5;
+}
+.error-msg:empty { display: none; }
+.auth-form .error-msg { text-align: center; overflow-wrap: anywhere; }
+
+#register-form .form-group { margin-bottom: 13px; }
+#register-form .auth-submit { margin-top: 3px; }
+
+@keyframes logo-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    12% { transform: translateY(-9px) rotate(-3deg); }
+    24% { transform: translateY(0) rotate(2deg); }
+    34% { transform: translateY(-4px) rotate(-1deg); }
+    44%, 100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes auth-card-enter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 380px) {
+    .auth-wrapper { padding: 16px 12px; }
+    .auth-card { padding: 27px 23px 22px; }
+    .brand-header .auth-logo { width: 78px; height: 78px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .brand-header .auth-logo, .auth-card { animation: none !important; }
+}
+
+
+/* Login password visibility toggle */
+.auth-form .password-input-wrap { position: relative; width: 100%; }
+.auth-form .password-input-wrap input { padding-right: 48px; }
+.auth-form .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #607b82;
+    box-shadow: none;
+    line-height: 1;
+}
+.auth-form .password-toggle:hover { background: rgba(0, 158, 174, .09); color: #007e8c; }
+.auth-form .password-toggle:focus-visible { outline: 2px solid rgba(0, 158, 174, .45); outline-offset: 1px; }
+.auth-form .password-toggle svg { display: block; flex: 0 0 auto; }
+.auth-form .register-email-group { margin-bottom: 18px; }
+.auth-form .field-hint {
+    margin: 7px 8px 0;
+    color: #607b82;
+    font-size: .76rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+
+/* Registration reassurance note */
+.auth-form .profile-update-hint {
+    margin: 9px 8px 0;
+    color: #038c9a;
+    font-size: .76rem;
+    line-height: 1.45;
+    text-align: center;
+}
+
+/* Landscape authentication layout: scoped to short, wide screens only. */
+@media screen and (orientation: landscape) and (min-width: 600px) and (max-height: 600px) {
+    #auth-container.auth-wrapper,
+    .auth-wrapper {
+        min-height: 100svh;
+        box-sizing: border-box;
+        padding: 16px 18px;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
+    }
+
+    .auth-card {
+        width: min(760px, 100%);
+        max-width: 760px;
+        box-sizing: border-box;
+        padding: 24px 28px;
+        display: grid;
+        grid-template-columns: minmax(120px, 0.34fr) minmax(0, 1fr);
+        column-gap: 28px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .auth-card > .brand-header {
+        grid-column: 1;
+        grid-row: 1;
+        align-self: center;
+        justify-self: center;
+        width: 100%;
+        margin: 0;
+        gap: 5px;
+    }
+
+    .auth-card > .brand-header .auth-logo {
+        width: 68px;
+        height: 68px;
+        max-width: 100%;
+        object-fit: contain;
+        margin: 0;
+    }
+
+    .auth-card > .brand-header h2 {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.25;
+    }
+
+    .auth-card > .auth-form {
+        grid-column: 2;
+        width: 100%;
+        min-width: 0;
+        align-self: center;
+        margin: 0;
+        text-align: center;
+    }
+
+    #login-form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    #login-form .form-group,
+    #register-form .form-group {
+        min-width: 0;
+        margin: 0;
+    }
+
+    #login-form input,
+    #register-form input {
+        min-height: 38px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        font-size: .85rem;
+    }
+
+    #login-form .auth-link-row {
+        margin: 0 0 2px;
+    }
+
+    #login-form .auth-submit,
+    #register-form .auth-submit {
+        width: 100%;
+        min-height: 40px;
+        margin: 2px 0 0;
+    }
+
+    #login-form .auth-footer,
+    #register-form .auth-footer {
+        margin: 7px 0 0;
+        font-size: .76rem;
+    }
+
+    #register-form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            "name name"
+            "email email"
+            "phone password"
+            "address address"
+            "submit submit"
+            "profile profile"
+            "error error"
+            "footer footer";
+        column-gap: 9px;
+        row-gap: 7px;
+        align-items: center;
+    }
+
+    #register-form > .form-group:nth-of-type(1) { grid-area: name; }
+    #register-form > .form-group:nth-of-type(2) { grid-area: email; }
+    #register-form > .form-group:nth-of-type(3) { grid-area: phone; }
+    #register-form > .form-group:nth-of-type(4) { grid-area: address; }
+    #register-form > .form-group:nth-of-type(5) { grid-area: password; }
+    #register-form > .auth-submit { grid-area: submit; }
+    #register-form > .profile-update-hint { grid-area: profile; }
+    #register-form > .error-msg { grid-area: error; }
+    #register-form > .auth-footer { grid-area: footer; }
+
+    #register-form .register-email-group { margin: 0; }
+    #register-form .field-hint {
+        margin: 4px 4px 0;
+        font-size: .68rem;
+        line-height: 1.3;
+    }
+    #register-form .profile-update-hint {
+        margin: 0;
+        font-size: .68rem;
+        line-height: 1.35;
+    }
+    #register-form .auth-footer { margin-top: 0; }
+    #register-form .password-input-wrap { min-width: 0; }
+    #register-form .error-msg { font-size: .8rem; }
+}
+
+@media screen and (orientation: landscape) and (min-width: 600px) and (max-height: 420px) {
+    .auth-wrapper { padding-top: 8px; padding-bottom: 8px; }
+    .auth-card { padding: 16px 22px; column-gap: 20px; }
+    .auth-card > .brand-header .auth-logo { width: 60px; height: 60px; max-width: 100%; object-fit: contain; }
+    #register-form { row-gap: 5px; }
+    #register-form input, #login-form input { min-height: 34px; }
+    #register-form .auth-submit, #login-form .auth-submit { min-height: 36px; }
+}
+
+/* The existing tab switch writes inline display:block; restore grid only for the active form. */
+@media screen and (orientation: landscape) and (min-width: 600px) and (max-height: 600px) {
+    #login-form[style*="display: block"],
+    #register-form[style*="display: block"] {
+        display: grid !important;
+    }
+}
