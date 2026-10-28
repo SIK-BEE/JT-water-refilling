@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JT Water Refilling</title>
+    <meta name="description" content="JT Water Refilling order, delivery, customer account, payment, and sales management portal">
+    <meta name="theme-color" content="#087f8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="JT Water">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/JT_ICON.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="assets/app-icon-192.png">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/overhaul.css">
+</head>
+<body>
+
+    <!-- First-open brand sequence: SIK-BEE loading screen, then Welcome -->
+    <div id="startup-splash" class="startup-splash jt-startup-splash" role="status" aria-live="polite">
+        <section class="startup-stage startup-stage-loading" id="startup-stage-loading">
+            <div class="startup-jt-logo">POWERED BY</div>
+            <img class="startup-sikbee-logo" src="assets/SIKBEE_LOGO.png" alt="SIK-BEE Systems">
+            <div class="startup-progress" aria-hidden="true"><span></span></div>
+        </section>
+        <section class="startup-stage startup-stage-welcome" id="startup-stage-welcome" aria-hidden="true">
+            <h1>Welcome</h1>
+        </section>
+    </div>
+
+    <!-- Initial session check: prevents the Login page flashing while Firebase restores an existing session. -->
+    <div id="jt-global-loading" class="jt-global-loading-overlay is-visible" style="z-index: 90000;" role="status" aria-live="polite">
+        <div class="jt-global-loading-card">
+            <img src="assets/JT_LOGO.png" alt="" class="jt-global-loading-logo">
+            <span class="jt-global-loading-message">Checking your session…</span>
+            <span class="jt-global-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+    </div>
+
+    <!-- Shared Auth Portal -->
+    <div id="auth-container" class="auth-wrapper" style="display: none;">
+        <div class="auth-card">
+            <div class="brand-header">
+                <img class="brand-logo auth-logo" src="assets/JT_LOGO.png" alt="JT Water Refilling logo">
+                <h2 id="auth-title">Login</h2>
+            </div>
+
+            <!-- Keep the existing role-safe customer registration flow -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label class="sr-only" for="login-email">Email Address</label>
+                    <input type="email" id="login-email" required autocomplete="username" placeholder="Email Address" aria-label="Email Address">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="login-password">Password</label>
+                    <div class="password-input-wrap">
+                        <input type="password" id="login-password" required autocomplete="current-password" placeholder="Password" aria-label="Password">
+                        <button type="button" class="password-toggle" id="toggle-login-password" aria-label="Show password" aria-pressed="false" title="Show password">
+                            <svg class="password-eye-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="auth-link-row">
+                    <button type="button" class="text-link" id="forgot-password-btn">Forgot Password?</button>
+                </div>
+                <button type="submit" class="btn-primary auth-submit">Login</button>
+                <div id="login-error" class="error-msg" role="alert" aria-live="polite"></div>
+                <p class="auth-footer">Don’t have an account? <button type="button" class="text-link strong-link" onclick="switchAuthTab('register')">Register</button></p>
+            </form>
+
+            <!-- Customer Register Form -->
+            <form id="register-form" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label class="sr-only" for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" required autocomplete="name" placeholder="Full Name" aria-label="Full Name">
+                </div>
+                <div class="form-group register-email-group">
+                    <label class="sr-only" for="reg-email">Email Address</label>
+                    <input type="email" id="reg-email" required autocomplete="email" placeholder="Email Address" aria-label="Email Address" aria-describedby="reg-email-hint">
+                    <p class="field-hint" id="reg-email-hint"><span style="color: #038c9a;">Note:</span> You’ll use this same email to log in.</p>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="reg-phone">Phone Number</label>
+                    <input type="tel" id="reg-phone" required autocomplete="tel" placeholder="Phone Number" aria-label="Phone Number">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="reg-address">Complete Delivery Address</label>
+                    <input type="text" id="reg-address" required autocomplete="street-address" maxlength="250" placeholder="Complete Delivery Address" aria-label="Complete Delivery Address">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="reg-password">Password</label>
+                    <input type="password" id="reg-password" required minlength="6" autocomplete="new-password" placeholder="Create Password" aria-label="Create Password">
+                </div>
+                <button type="submit" class="btn-primary auth-submit">Create Account</button>
+                <p class="profile-update-hint">You can update your profile details anytime after creating your account.</p>
+                <div id="register-error" class="error-msg" role="alert" aria-live="polite"></div>
+                <p class="auth-footer">Already have an account? <button type="button" class="text-link strong-link" onclick="switchAuthTab('login')">Login</button></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application Dashboard Shell -->
+    <div id="app-container" style="display: none;">
+        <header class="app-header">
+            <div class="header-brand">
+                <button id="drawer-toggle" class="drawer-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="app-sidebar">☰</button>
+                <h2><img class="brand-logo header-logo" src="assets/JT_LOGO.png" alt=""><span class="header-brand-name">JT Water Refilling</span></h2>
+            </div>
+            <div class="header-user">
+                <span id="user-role-badge" class="badge">Role</span>
+                <span id="user-display-name">User Name</span>
+                <button id="logout-btn" class="btn-secondary" aria-hidden="true" tabindex="-1">Sign Out</button>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+            <aside id="app-sidebar" class="app-sidebar" aria-label="Main navigation">
+                <nav id="sidebar-nav">
+                    <!-- Dynamically populated based on role -->
+                </nav>
+                <div class="sidebar-account-actions">
+                    <div class="sidebar-utility-actions" aria-label="App actions">
+                        <button id="install-app-btn" class="sidebar-utility-btn" type="button"><span class="utility-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></span><span>Install App</span></button>
+                        <button id="share-app-btn" class="sidebar-utility-btn" type="button"><span class="utility-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.6 6.8-4.2m-6.8 7.2 6.8 4.2"/></svg></span><span>Share App</span></button>
+                    </div>
+                    <button id="sidebar-logout-btn" class="btn-secondary" type="button">Sign Out</button>
+                </div>
+            </aside>
+            <main id="app-content" class="app-main">
+                <!-- Dynamically populated dashboard content -->
+            </main>
+        </div>
+    </div>
+
+    <!-- Global Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+
+    <script>
+    (() => {
+        const splash = document.getElementById('startup-splash');
+        if (!splash) return;
+        let alreadyStarted = false;
+        try { alreadyStarted = sessionStorage.getItem('jt-startup-seen') === '1'; } catch (_) {}
+        if (alreadyStarted) { splash.remove(); return; }
+        try { sessionStorage.setItem('jt-startup-seen', '1'); } catch (_) {}
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const welcomeStage = document.getElementById('startup-stage-welcome');
+        window.setTimeout(() => {
+            splash.classList.add('show-welcome');
+            if (welcomeStage) welcomeStage.setAttribute('aria-hidden', 'false');
+        }, reducedMotion ? 150 : 1450);
+        window.setTimeout(() => {
+            splash.classList.add('jt-startup-finished');
+            window.setTimeout(() => splash.remove(), reducedMotion ? 0 : 450);
+        }, reducedMotion ? 550 : 3150);
+        // Hard failsafe: the startup overlay must never block the app indefinitely.
+        window.setTimeout(() => {
+            if (document.getElementById('startup-splash')) document.getElementById('startup-splash').remove();
+        }, 5000);
+    })();
+    </script>
+
+    <!-- Main App Module Entry -->
+
+    <script>
+    (() => {
+        if (!("serviceWorker" in navigator)) return;
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
+                .catch(error => console.warn("JT Water offline support could not be enabled:", error));
+        });
+    })();
+    </script>
+
+    <script type="module" src="js/auth.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const side = document.getElementById('sidebar-logout-btn');
+        const original = document.getElementById('logout-btn');
+        if (side && original) side.addEventListener('click', () => original.click());
+      });
+    </script>
+</body>
+</html>

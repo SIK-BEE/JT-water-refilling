@@ -1,0 +1,30 @@
+{
+  "id": "./",
+  "name": "JT Water Refilling",
+  "short_name": "JT Water Refilling",
+  "description": "JT Water Refilling App for managing orders, deliveries, payments, and accounts.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f8f9",
+  "theme_color": "#087f8c",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ]
+}
